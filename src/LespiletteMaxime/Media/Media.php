@@ -1,10 +1,9 @@
-<?php
+<?php namespace LespiletteMaxime\Media;
 
-class User extends Eloquent {
+class Media extends \Eloquent {
 
 	public function mediable(){
-		$this->morphTo();		
+		return $this->morphTo();		
 	}
-
 
 }
