@@ -35,11 +35,11 @@ class MediaServiceProvider extends ServiceProvider {
 			return new MediaHtml;
 		});
 
-		$this->app->booting(function()
-		{
-			$loader = \Illuminate\Foundation\AliasLoader::getInstance();
-			$loader->alias('MediaHtml','LespiletteMaxime\Media\Facades\MediaHTML');
-		});
+		// $this->app->booting(function()
+		// {
+		// 	$loader = \Illuminate\Foundation\AliasLoader::getInstance();
+		// 	$loader->alias('MediaHtml','LespiletteMaxime\Media\Facades\MediaHTML');
+		// });
 	}
 
 	/**
@@ -49,7 +49,7 @@ class MediaServiceProvider extends ServiceProvider {
 	 */
 	public function provides()
 	{
-		return array();
+		return array('MediaHtml');
 	}
 
 }
