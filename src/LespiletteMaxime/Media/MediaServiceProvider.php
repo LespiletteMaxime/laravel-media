@@ -19,6 +19,8 @@ class MediaServiceProvider extends ServiceProvider {
 	public function boot()
 	{
 		$this->package('lespilette-maxime/media');
+
+		include __DIR__.'/../../routes.php';
 	}
 
 	/**
