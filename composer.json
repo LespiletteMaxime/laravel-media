@@ -9,13 +9,15 @@
     ],
     "require": {
         "php": ">=5.4.0",
-        "illuminate/support": "4.2.*"
+        "illuminate/support": "4.2.*",
+		"oneup/uploader-bundle": "1.3.*"
     },
     "autoload": {
         "classmap": [
             "src/migrations",
             "src/controllers",
-            "src/views"
+            "src/views",
+            "src/config"
         ],
         "psr-0": {
             "LespiletteMaxime\\Media\\": "src/"
