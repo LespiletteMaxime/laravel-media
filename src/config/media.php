@@ -1,5 +1,6 @@
 <?php
 return [
+	'upload_limit' => 0,
 	'default_path' => '/upload',
 	'folder_structure' => date('d-m-Y'),
 	'default_validator' => 'image',
