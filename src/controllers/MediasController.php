@@ -50,15 +50,17 @@ class MediasController extends \BaseController{
             return \Response::json(['success' => false, 'errors' => $validator->getMessageBag()->toArray()]);
         }
         else {
+			$real_path = \Config::get('media::media.default_path').DIRECTORY_SEPARATOR.\Config::get('media::media.folder_structure');
+            $destinationPath = 'public'.$real_path;
 
-            $destinationPath = \Config::get('media::media.default_path').DIRECTORY_SEPARATOR.\Config::get('media::media.folder_structure');
+
             $filename = $file->getClientOriginalName();
 
             \Input::file('files')->move($destinationPath, $filename);
             $options = [
         		'mediable_type' => current(\Input::only('alias-class')),
         		'mediable_id' => current(\Input::only('alias-id')),
-        		'path' => $destinationPath.DIRECTORY_SEPARATOR.$filename	
+        		'path' => $real_path.DIRECTORY_SEPARATOR.$filename	
         	];
             \LespiletteMaxime\Media\Models\Media::create($options);
             return \Response::json(['success' => true, 'file' => asset($destinationPath.$filename)]);
@@ -110,6 +112,11 @@ class MediasController extends \BaseController{
 	 */
 	public function destroy($id)
 	{
-		//
+		$media = \LespiletteMaxime\Media\Models\Media::findOrFail($id);
+		if(\File::exists($media->path)){
+				\File::delete($media->path);
+		}
+		$media->delete($id);
+		return \Redirect::back();
 	}
 }
