@@ -17,6 +17,7 @@
             "src/migrations",
             "src/controllers",
             "src/views",
+            "src/models",
             "src/config"
         ],
         "psr-0": {

@@ -36,8 +36,13 @@ class MediasController extends \BaseController{
 		// nom de la classe alias-class
 		$file = \Input::file('files');
         $input = array('image' => $file);
+
+        $max_file_size = \Config::get('media::media.max_file_size');
+        // $rules = array(
+        //     'image' => "image|max:$max_file_size"
+        // );
         $rules = array(
-            'image' => 'image'
+             'image' => "image|max:2000"
         );
         $validator = \Validator::make($input, $rules);
         if ( $validator->fails() )
@@ -46,14 +51,16 @@ class MediasController extends \BaseController{
         }
         else {
 
-            $destinationPath = \Config::get('media::media.path').DIRECTORY_SEPARATOR.\Config::get('media::media.folder_structure').DIRECTORY_SEPARATOR;
+            $destinationPath = \Config::get('media::media.default_path').DIRECTORY_SEPARATOR.\Config::get('media::media.folder_structure');
             $filename = $file->getClientOriginalName();
+
             \Input::file('files')->move($destinationPath, $filename);
-            Media::create([
-        		'mediable_type' => \Input::only('alias-class'),
-        		'mediable_id' => \Input::only('alias-id'),
+            $options = [
+        		'mediable_type' => current(\Input::only('alias-class')),
+        		'mediable_id' => current(\Input::only('alias-id')),
         		'path' => $destinationPath.DIRECTORY_SEPARATOR.$filename	
-        	])
+        	];
+            \LespiletteMaxime\Media\Models\Media::create($options);
             return \Response::json(['success' => true, 'file' => asset($destinationPath.$filename)]);
         }
 	}
