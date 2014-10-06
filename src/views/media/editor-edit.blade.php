@@ -1,15 +1,19 @@
+{{ $media->thumb() }}
+
 <div class="item">
 <input type="hidden" value="{{ $media->order }}">
-	<div class="visu"><img width=100 height=100 src="{{$media->icon() }}" alt=""></div>
+	
+	<div class="visu" style="float:left;padding-right:30px;">
+		<img width=100 height=100 src="{{ $media->icon() }}" alt="">
+	</div>
+	<strong>Nom du fichier</strong> :{{ $media->name() }}<br />Taille de l'image
 </div>
+<br style="clear:both" />
 <table>
-	<tr>
-	<td></td>
-	<td>Nom du fichier : XXX.jpg <br />Taille de l'image</td>
-	</tr>
+
 	<tr>
 		<td>Titre</td>
-		<td>Nom de l'image</td>
+		<td>{{ $media->name() }} </td>
 	</tr>
 	<tr>
 		<td>Text alternatif</td>
@@ -17,7 +21,7 @@
 	</tr>
 	<tr>
 		<td>Cible du lien</td>
-		<td>/mon/chemin/vers/image</td>
+		<td>{{ $media->path }}</td>
 	</tr>
 	<tr>
 		<td>Alignement</td>

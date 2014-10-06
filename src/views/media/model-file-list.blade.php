@@ -2,14 +2,14 @@
 <table class="table">
 <tr>
 	<th>Media</th>
-	<th>Actions</th>
+	<th class='text-right'>Actions</th>
 </tr>
 <tr>
  <td>
  	<img width=100 height=100 src="{{$media->icon() }}" alt="">
- 	<a href="{{ $media->path }}">{{ basename($media->path) }}</a>
+ 	<a href="{{ $media->path }}">{{ $media->name() }}</a>
  </td>
- <td>	
+ <td class='text-right'>	
 	 {{ Form::open(array('route' => array('media.destroy', $media->id), 'method' => 'delete')) }}
 	   <button type="submit" href="{{ URL::route('media.destroy', $media->id) }}" class="			btn btn-danger btn-mini">Delete</button>
 	 {{ Form::close() }}
@@ -26,6 +26,3 @@
 @empty
 	<p class="bg-warning">No media</p>
 @endforelse	
-
-
-
