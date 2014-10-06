@@ -32,6 +32,8 @@ class MediasController extends \BaseController{
 	 */
 	public function store()
 	{
+		// Id du model assoocie alias-id
+		// nom de la classe alias-class
 		$file = \Input::file('files');
         $input = array('image' => $file);
         $rules = array(
@@ -43,9 +45,15 @@ class MediasController extends \BaseController{
             return \Response::json(['success' => false, 'errors' => $validator->getMessageBag()->toArray()]);
         }
         else {
+
             $destinationPath = \Config::get('media::media.path').DIRECTORY_SEPARATOR.\Config::get('media::media.folder_structure').DIRECTORY_SEPARATOR;
             $filename = $file->getClientOriginalName();
             \Input::file('files')->move($destinationPath, $filename);
+            Media::create([
+        		'mediable_type' => \Input::only('alias-class'),
+        		'mediable_id' => \Input::only('alias-id'),
+        		'path' => $destinationPath.DIRECTORY_SEPARATOR.$filename	
+        	])
             return \Response::json(['success' => true, 'file' => asset($destinationPath.$filename)]);
         }
 	}

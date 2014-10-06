@@ -8,9 +8,9 @@ class MediaHtml {
 	 * @param  [type] $model [description]
 	 * @return [type]        [description]
 	 */
-	public function iframe($model){
-		// $model_id = $model->getKey();
-		// $model_name = $model->getMorphClass();
-		return View::make('media::media.iframe',compact('model'));
+	public function iframe($alias){
+		// $alias_id = $alias->getKey();
+		// $alias_name = $alias->getMorphClass();
+		return View::make('media::media.iframe',compact('alias'));
 	}
 }
