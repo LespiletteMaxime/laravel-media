@@ -20,7 +20,7 @@
         $file_img = $.parseJSON(data.responseText);
 
         //  $('<img/>').attr('src', $file_img.file).appendTo('#media-list');
-        $('#media-list').append($file_img.template);
+        $('#media-list tr.item-row:first').before($file_img.template);
       },
       error: function(response)
       {
