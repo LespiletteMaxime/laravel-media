@@ -16,23 +16,12 @@
  	  formData : $('#media-upload-alias-info').serializeArray(),
     dropZone: $('#dropzone'),
     apc: true,
-    /* reset before submitting */
-    beforeSend: function() {
-      bar.width('0%');
-      percent.html('0%');
-    },
-    /* progress bar call back*/
-    uploadProgress: function(event, position, total, percentComplete) {
-      console.log(event);
-      console.log(position);
-      console.log(total);
-      console.log(percentComplete);
-      var pVel = percentComplete + '%';
-      bar.width(pVel);
-      percent.html(pVel);
-    },
-    /* complete call back */
-      complete: function(data) {},
+    complete: function(data) {
+        $file_img = $.parseJSON(data.responseText);
+
+        //  $('<img/>').attr('src', $file_img.file).appendTo('#media-list');
+        $('#media-list').append($file_img.template);
+      },
       error: function(response)
       {
         var r = $.parseJSON(response.responseText);

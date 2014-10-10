@@ -1,5 +1,6 @@
 <?php namespace LespiletteMaxime\Media\Controllers;
 
+use View;
 class MediasController extends \BaseController{
 
 	/**
@@ -62,8 +63,16 @@ class MediasController extends \BaseController{
         		'mediable_id' => current(\Input::only('alias-id')),
         		'path' => $real_path.DIRECTORY_SEPARATOR.$filename	
         	];
-            \LespiletteMaxime\Media\Models\Media::create($options);
-            return \Response::json(['success' => true, 'file' => asset($destinationPath.$filename)]);
+            $media =  \LespiletteMaxime\Media\Models\Media::create($options);
+            $template = View::make('media::media.item',compact('media'));
+
+            return \Response::json(
+            	['success' => true,
+            	 'file' => asset($real_path.DIRECTORY_SEPARATOR.$filename),
+            	 'file_name' => $filename,
+            	 'media_id' => $media->id,
+            	 'template' => $template->render()
+            ]);
         }
 	}
 

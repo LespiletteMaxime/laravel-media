@@ -1,9 +1,9 @@
-@forelse($alias->media as $media)
-<table class="table">
+<table class="table" id="media-list">
 <tr>
 	<th>Media</th>
 	<th class='text-right'>Actions</th>
 </tr>
+@forelse($alias->media as $media)
 <tr>
  <td>
  	<img width=100 height=100 src="{{$media->icon() }}" alt="">
@@ -17,12 +17,11 @@
 	 {{ Form::open(array('route' => array('media.edit', $media->id), 'method' => 'PATCH')) }}
 	   <button type="submit" href="{{ URL::route('media.destroy', $media->id) }}" class="			btn btn-info btn-mini">Editer</button>
 	 {{ Form::close() }}
-
-	 @endif
  </td>
 </tr>
+@endif
 </table>
-@include('media::media.editor-edit')
+	<!--@include('media::media.editor-edit')-->
 @empty
 	<p class="bg-warning">No media</p>
 @endforelse	
