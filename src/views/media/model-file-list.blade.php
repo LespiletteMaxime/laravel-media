@@ -1,6 +1,7 @@
 <table class="table" id="media-list">
-<tr>
+<tr class="media-th">
 	<th>Media</th>
+	<th>&nbsp;</th>
 	<th class='text-right'>Actions</th>
 </tr>
 @forelse($alias->media as $media)

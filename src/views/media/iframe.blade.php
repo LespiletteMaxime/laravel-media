@@ -13,20 +13,18 @@
   var bar = $('.bar');
 
   $('#formUpload').fileupload({
- 	  formData : $('#media-upload-alias-info').serializeArray(),
-    dropZone: $('#dropzone'),
-    apc: true,
-    complete: function(data) {
+      formData : $('#media-upload-alias-info').serializeArray(),
+      dropZone: $('#dropzone'),
+      apc: true,
+     complete: function(data) {
         $file_img = $.parseJSON(data.responseText);
-
-        //  $('<img/>').attr('src', $file_img.file).appendTo('#media-list');
-        $('#media-list tr.item-row:first').before($file_img.template);
-      },
-      error: function(response)
-      {
+        $('#media-list tr.media-th:first').after($file_img.template);
+     },
+     error: function(response)
+     {
         var r = $.parseJSON(response.responseText);
         alert(r.error.message);
-      }
+     }
     });
 
 $(document).bind('dragover', function (e) {
