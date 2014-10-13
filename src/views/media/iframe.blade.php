@@ -16,6 +16,7 @@
       formData : $('#media-upload-alias-info').serializeArray(),
       dropZone: $('#dropzone'),
       apc: true,
+     
      complete: function(data) {
         $file_img = $.parseJSON(data.responseText);
         $('#media-list tr.media-th:first').after($file_img.template);
@@ -25,6 +26,9 @@
         var r = $.parseJSON(response.responseText);
         alert(r.error.message);
      }
+    }).bind('fileuploadprogress',function(e, data){
+    var progress = parseInt(data.loaded / data.total * 100, 10);
+    console.log(progress);
     });
 
 $(document).bind('dragover', function (e) {
@@ -54,4 +58,6 @@ $(document).bind('dragover', function (e) {
         dropZone.removeClass('in hover');
     }, 100);
 });
+
+
 </script>
