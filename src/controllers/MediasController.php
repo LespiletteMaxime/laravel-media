@@ -48,7 +48,7 @@ class MediasController extends \BaseController{
         $validator = \Validator::make($input, $rules);
         if ( $validator->fails() )
         {
-            return \Response::json(['success' => false, 'errors' => $validator->getMessageBag()->toArray()]);
+            return \Response::json(['success' => false, 'errors' => $validator->getMessageBag()->toArray()],500);
         }
         else {
 			$real_path = \Config::get('media::media.default_path').DIRECTORY_SEPARATOR.\Config::get('media::media.folder_structure');
@@ -125,8 +125,11 @@ class MediasController extends \BaseController{
 		if(\File::exists($media->path)){
 				\File::delete($media->path);
 		}
-		$media->delete($id);
-		return \Redirect::back();
+		if($media->delete($id) )
+		{
+			return \Response::json(['success' => true]);
+		}
+			return \Response::json(['success' => false, 'errors' => 'Error while delete media'],500);
 	}
 
 	public function progress(){

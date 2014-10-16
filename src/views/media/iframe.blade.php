@@ -20,33 +20,47 @@
 <script src="/js/jquery.fileupload-process.js"></script>
 
 <script>
+var progressbar = $('.progress .progress-bar');
+$('#formUpload').fileupload({
+  formData : $('#media-upload-alias-info').serializeArray(),
+  dropZone: $('#dropzone'),
+   complete: function(data){
+    $file_img = $.parseJSON(data.responseText);
+    $('#media-list tr.media-th:first').after($file_img.template).fadeIn();
+    progressbar.css('width',0+'%').attr('aria-valuenow',0);
+    $('.percent').text('');
+    $('.bitrate').text('');
+   },
+   error: function(response){
+    var r = $.parseJSON(response.responseText);
+    alert(r.error.message);
+   }
+}).bind('fileuploadprogress',function(e, data){
+  var progress = parseInt(data.loaded / data.total * 100, 10);
+  progressbar.css('width',progress + '%').attr('aria-valuenow',progress);
+  kps = Math.floor(data.bitrate/1000);
+  $('.percent').text(progress+ "%");
+  $('.bitrate').text(kps+" ko/s");
+});
 
-  // var percent = $('.percent');
-  // var bar = $('.bar');
-  var progressbar = $('.progress .progress-bar');
 
-  $('#formUpload').fileupload({
-   formData : $('#media-upload-alias-info').serializeArray(),
-   dropZone: $('#dropzone'),
-     complete: function(data){
-        $file_img = $.parseJSON(data.responseText);
-        $('#media-list tr.media-th:first').after($file_img.template);
-        progressbar.css('width',0+'%').attr('aria-valuenow',0);
-        $('.percent').text('');
-        $('.bitrate').text('');
-     },
-     error: function(response){
-        var r = $.parseJSON(response.responseText);
-        alert(r.error.message);
+$('#media-list').on('click','.file-delete',function(e){
+  // call delete file
+       $(this).closest('tr').fadeOut();
+   $.ajax({
+     url : '/media/'+ $(this).data("id"),
+     type : 'DELETE',
+     statusCode: {
+      500: function(data){
+         var r = $.parseJSON(data.responseText);
+         alert(r.errors);
+       },
+      200: function(){
+        $(this).closest('tr').fadeOut();
+      }
      }
-    }).bind('fileuploadprogress',function(e, data){
-       var progress = parseInt(data.loaded / data.total * 100, 10);
-        progressbar.css('width',progress + '%').attr('aria-valuenow',progress);
-        kps = Math.floor(data.bitrate/1000);
-        $('.percent').text(progress+ "%");
-        $('.bitrate').text(kps+" ko/s");
-    });
-
+  });
+});
 
 $(document).bind('dragover', function (e) {
     var dropZone = $('#dropzone'),
