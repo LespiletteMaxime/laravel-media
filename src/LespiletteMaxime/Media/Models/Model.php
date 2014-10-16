@@ -2,7 +2,9 @@
 
 class Media extends \Eloquent {
 	public $fillable = ['mediable_id','mediable_type','path'];
-//	public $rules = [];
+	// public $rules = [
+	// 	'path' => ''
+	// ];
 	private $imagetype = [
 		'image/jpeg',
 		'image/jpg',

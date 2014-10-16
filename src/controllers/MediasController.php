@@ -39,21 +39,23 @@ class MediasController extends \BaseController{
         $input = array('image' => $file);
 
         $max_file_size = \Config::get('media::media.max_file_size');
-        // $rules = array(
-        //     'image' => "image|max:$max_file_size"
-        // );
         $rules = array(
-             'image' => "image|max:2000"
+             'image' => "image|max:2000",
+             'path' => "unique_with:mediable_type,mediable_id"
         );
         $validator = \Validator::make($input, $rules);
         if ( $validator->fails() )
         {
             return \Response::json(['success' => false, 'errors' => $validator->getMessageBag()->toArray()],500);
         }
-        else {
-			$real_path = \Config::get('media::media.default_path').DIRECTORY_SEPARATOR.\Config::get('media::media.folder_structure');
-            $destinationPath = 'public'.$real_path;
+        else
+        {
 
+        	//Check if file exist and rename it in this case
+        	
+			$real_path = \Config::get('media::media.default_path').DIRECTORY_SEPARATOR.\Config::get('media::media.folder_structure');
+
+            $destinationPath = 'public'.$real_path;
 
             $filename = $file->getClientOriginalName();
 
@@ -63,6 +65,10 @@ class MediasController extends \BaseController{
         		'mediable_id' => current(\Input::only('alias-id')),
         		'path' => $real_path.DIRECTORY_SEPARATOR.$filename	
         	];
+        	$rules = array(
+             'path' => "unique_with:mediable_type,mediable_id"
+        	);
+        	
             $media =  \LespiletteMaxime\Media\Models\Media::create($options);
             $template = View::make('media::media.item',compact('media'));
 
